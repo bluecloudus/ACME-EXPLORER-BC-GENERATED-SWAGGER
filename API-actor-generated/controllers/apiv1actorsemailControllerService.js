@@ -1,39 +1,39 @@
 'use strict'
 var db = require('../db');
 
-module.exports.findActorByemail = function findActorByemail(req, res, next) {
-  res.send({
-    message: 'This is the mockup controller for findActorByemail'
-  });
-};
-
-module.exports.deleteActor = function deleteActor(req, res, next) {
-  res.send({
-    message: 'This is the mockup controller for deleteActor'
-  });
-};
-
-module.exports.updateActor = function updateActor(req, res, next) {  
+module.exports.updateActor = function updateActor(req, res, next) {
+  var updatedActor = req.actor.value;
   var email = req.email.value;
-  if (!email) {
-    console.warn("New GET request to /actors/:email without email, sending 400...");
+  if (!updatedActor) {
+    console.warn("New PUT request to /actors/ without actor, sending 400...");
     res.sendStatus(400); // bad request
   } else {
-    console.info("New GET request to /actors/" + email);
-    db.find({ "email": email }, function (err, filteredActors) {
-      if (err) {
-        console.error('Error getting data from DB');
-        res.sendStatus(500); // internal server error
-      } else {
-        if (filteredActors.length > 0) {
-          var actor = filteredActors[0]; //since we expect to have exactly ONE actor with this email
-          console.info("Sending actor: " + JSON.stringify(actor, 2, null));
-          res.send(actor);
+    console.info("New PUT request to /actors/" + email +
+      " with data " + JSON.stringify(updatedActor, 2, null));
+    if (!updatedActor.name || !updatedActor.surname || !updatedActor.email ||
+      !updatedActor.password || !updatedActor.phone || !updatedActor.address ||
+      !updatedActor.role || !updatedActor.created) {
+      console.warn("The actor " +
+        JSON.stringify(updatedActor, 2, null) +
+        " is not well-formed, sending 422...");
+      res.sendStatus(422); // unprocessable entity
+    } else {
+      db.find({ "email": updatedActor.email }, function (err, actors) {
+        if (err) {
+          console.error('Error getting data from DB');
+          res.sendStatus(500); // internal server error
         } else {
-          console.warn("There are no actors with email " + email);
-          res.sendStatus(404); // not found
+          if (actors.length > 0) {
+            db.update({ email: email }, updatedActor);
+            console.info("Modifying actor with email " + email + " with data "
+              + JSON.stringify(updatedActor, 2, null));
+            res.send(updatedActor); // return the updated actor
+          } else {
+            console.warn("There are not any actor with email " + email);
+            res.sendStatus(404); // not found
+          }
         }
-      }
-    });
-}
+      });
+    }
+  }
 };

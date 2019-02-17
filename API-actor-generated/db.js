@@ -17,12 +17,12 @@ var _db;
 //Creates the connection to the database
 module.exports.connect = function connect(cb) {
     if (_db) {
-        logger.warn("Trying to create the DB connection again!");
+        console.warn("Trying to create the DB connection again!");
         return cb(null, _db);
     }
     client.connect(function (err) {
         if (err) {
-            logger.error("Error connecting to DB!", err);
+            console.error("Error connecting to DB!", err);
             process.exit(1);
         }
         _db = client.db(dbName).collection(dbName);

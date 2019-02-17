@@ -6,9 +6,9 @@ info:
     This is an OpenAPI Specification created by oas-wizard
     (https://github.com/pafmon/oas-wizard)  
   contact:
-    name: PabloFM
-    email: pablofm@us.es
-    url: 'http://www.isa.us.es'
+    name: bluecloudus
+    email: bluecloudus@gmail.com
+    url: ''
   license:
     name: MIT
     url: 'http: //opensource.org/licenses/MIT'
@@ -53,48 +53,6 @@ paths:
         description: Actor to be created
         required: true
   '/api/v1/actors/{email}':
-    get:
-      description: Returns a actor by email
-      operationId: findActorByemail
-      parameters:
-        - name: email
-          in: path
-          description: email of actor to fetch
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Actor returned
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/actor'
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorModel'
-    delete:
-      description: deletes a single actor based on the email
-      operationId: deleteActor
-      parameters:
-        - name: email
-          in: path
-          description: ID of actor to delete
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: actor deleted
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorModel'
     put:
       description: Update a actor based on its email
       operationId: updateActor

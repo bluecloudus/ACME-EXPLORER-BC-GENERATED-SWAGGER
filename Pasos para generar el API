@@ -1,0 +1,5 @@
+Paso 0: Hemos creado un archivo .yaml con los atributos correspondientes a nuestro modelo actorModel.
+Paso 1: Hemos generado un archivo yaml con la herramienta OAS-Wizard Generando un Open API Specification.
+Paso 3: Hemos generado la documuentacion del api con el comando: OAS-generator OAS-actor.yaml -n API-generated.
+Paso 4: En los Controller Services hemos agregado los procedimientos a utilizar.
+Paso 5: Agregamos el archivo db.js para la base de datos y el Index para el arranque del API.
